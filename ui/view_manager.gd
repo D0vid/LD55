@@ -10,10 +10,10 @@ func _ready():
 	main_menu.get_node("%StartGameButton").connect("pressed", _on_start_game_button_pressed)
 	views = [main_menu, game_viewport]
 	pass
-	
+
 func _on_start_game_button_pressed():
 	transition_to(game_viewport)
-	
+
 func transition_to(new_view):
 	var tween = create_tween()
 	tween.tween_property(transition_rect, "color:a", 1, 0.25)

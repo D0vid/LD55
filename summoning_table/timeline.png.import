@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://kirqgh10773t"
-path="res://.godot/imported/scroll.png-48e93f63af42bedd1cfbb05213033af8.ctex"
+uid="uid://ca025q31p6e47"
+path="res://.godot/imported/timeline.png-c8e8311cfa499f212a972a9531e8d0ec.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/scroll.png"
-dest_files=["res://.godot/imported/scroll.png-48e93f63af42bedd1cfbb05213033af8.ctex"]
+source_file="res://summoning_table/timeline.png"
+dest_files=["res://.godot/imported/timeline.png-c8e8311cfa499f212a972a9531e8d0ec.ctex"]
 
 [params]
 
