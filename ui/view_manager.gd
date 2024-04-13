@@ -1,18 +1,18 @@
 extends Control
 
 @onready var main_menu = $MainMenu
-@onready var castle_viewport = $CastleViewport
+@onready var book_viewport = $BookViewport
 @onready var transition_rect = $TransitionRect
 
 var views = []
 
 func _ready():
 	main_menu.get_node("%StartGameButton").connect("pressed", _on_start_game_button_pressed)
-	views = [main_menu, castle_viewport]
+	views = [main_menu, book_viewport]
 	pass
 	
 func _on_start_game_button_pressed():
-	transition_to(castle_viewport)
+	transition_to(book_viewport)
 	
 func transition_to(new_view):
 	var tween = create_tween()

@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://lit83qn6peku"]
+[gd_scene load_steps=3 format=3 uid="uid://lit83qn6peku"]
 
 [ext_resource type="Script" path="res://ui/view_manager.gd" id="1_4pgku"]
 [ext_resource type="PackedScene" uid="uid://cebdu1xyur7hf" path="res://ui/main_menu.tscn" id="1_oa08f"]
-[ext_resource type="PackedScene" uid="uid://cm0kscbavtcss" path="res://castle/castle.tscn" id="2_0kkqh"]
 
 [node name="ViewManager" type="Control"]
 layout_mode = 3
@@ -16,7 +15,7 @@ script = ExtResource("1_4pgku")
 [node name="MainMenu" parent="." instance=ExtResource("1_oa08f")]
 layout_mode = 1
 
-[node name="CastleViewport" type="SubViewportContainer" parent="."]
+[node name="BookViewport" type="SubViewportContainer" parent="."]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -25,14 +24,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="SubViewport" type="SubViewport" parent="CastleViewport"]
+[node name="SubViewport" type="SubViewport" parent="BookViewport"]
 handle_input_locally = false
 size = Vector2i(1920, 1080)
 size_2d_override = Vector2i(640, 360)
 size_2d_override_stretch = true
 render_target_update_mode = 0
-
-[node name="Castle" parent="CastleViewport/SubViewport" instance=ExtResource("2_0kkqh")]
 
 [node name="TransitionRect" type="ColorRect" parent="."]
 layout_mode = 1
