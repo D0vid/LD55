@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://bon367xf2wgci"]
+
+[ext_resource type="Texture2D" uid="uid://b4s3yamvel8dd" path="res://ui/bg.png" id="1_ltk5r"]
+[ext_resource type="Texture2D" uid="uid://kirqgh10773t" path="res://ui/scroll.png" id="2_0lu8c"]
+
+[node name="SummoningTable" type="TextureRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_ltk5r")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_0lu8c")
