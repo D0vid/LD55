@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://rlnfwaryne1e"]
+
+[ext_resource type="Texture2D" uid="uid://0ecbtu0hhgiv" path="res://icon.svg" id="1_hqpkk"]
+
+[node name="Cultist" type="Sprite2D"]
+modulate = Color(1, 0, 0, 1)
+scale = Vector2(0.125, 0.125)
+texture = ExtResource("1_hqpkk")
+centered = false
