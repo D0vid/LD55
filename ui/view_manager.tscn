@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://ui/view_manager.gd" id="1_4pgku"]
 [ext_resource type="PackedScene" uid="uid://cebdu1xyur7hf" path="res://ui/main_menu.tscn" id="1_oa08f"]
-[ext_resource type="PackedScene" uid="uid://bon367xf2wgci" path="res://summoning_table/summoning_table.tscn" id="3_nnubd"]
 [ext_resource type="PackedScene" uid="uid://bopb5d40kt6ri" path="res://drawing/drawing.tscn" id="3_wjogj"]
+[ext_resource type="PackedScene" uid="uid://bhwxfi16owhjm" path="res://intro/intro.tscn" id="4_njoav"]
 
 [node name="ViewManager" type="Control"]
 layout_mode = 3
@@ -14,25 +14,28 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_4pgku")
 
+[node name="MainMenu" parent="." instance=ExtResource("1_oa08f")]
+layout_mode = 1
+
 [node name="GameViewport" type="SubViewportContainer" parent="."]
+visible = false
 layout_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="SubViewport2" type="SubViewport" parent="GameViewport"]
+[node name="SubViewport" type="SubViewport" parent="GameViewport"]
 transparent_bg = true
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
 size = Vector2i(1920, 1080)
 size_2d_override = Vector2i(160, 90)
 size_2d_override_stretch = true
-render_target_update_mode = 4
+render_target_update_mode = 0
 
-[node name="SummoningTable" parent="GameViewport/SubViewport2" instance=ExtResource("3_nnubd")]
-
-[node name="GameViewport2" type="SubViewportContainer" parent="."]
+[node name="DrawViewport" type="SubViewportContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -45,16 +48,16 @@ grow_horizontal = 2
 grow_vertical = 2
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="GameViewport2"]
+[node name="SubViewport" type="SubViewport" parent="DrawViewport"]
 transparent_bg = true
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
 size = Vector2i(1547, 746)
-render_target_update_mode = 4
+render_target_update_mode = 0
 
-[node name="Drawing" parent="GameViewport2/SubViewport" instance=ExtResource("3_wjogj")]
+[node name="Drawing" parent="DrawViewport/SubViewport" instance=ExtResource("3_wjogj")]
 
-[node name="MainMenu" parent="." instance=ExtResource("1_oa08f")]
+[node name="Intro" parent="." instance=ExtResource("4_njoav")]
 visible = false
 layout_mode = 1
 

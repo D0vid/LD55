@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://7goqos0e8od2"]
+
+[ext_resource type="Script" path="res://popup_effect/popup_effect.gd" id="1_07e7q"]
+
+[node name="PopupEffect" type="Sprite2D"]
+script = ExtResource("1_07e7q")
