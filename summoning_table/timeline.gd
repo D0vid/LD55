@@ -30,6 +30,8 @@ var wave_current_count = 0
 
 var actions_in_tap_zone = []
 
+signal missed
+signal hit
 
 func _ready():
 	tap_zone = get_node("%RuneTapZone")
@@ -58,6 +60,7 @@ func _process(delta):
 		# Check if a rune is in the tap zone -> validate it
 		if rune is Rune and Input.is_action_just_pressed(rune.rune_base.key) and rune.overlaps_area(tap_zone):
 			print("validated [" + rune.rune_base.key + "] key for rune " + rune.name)
+			hit.emit()
 			rune.validated = true
 			rune.queue_free()
 		# Add action to list to check
@@ -82,6 +85,7 @@ func _process(delta):
 		and Input.is_action_just_pressed(action) 
 		and !actions_in_tap_zone.has(action)):
 			print("too early")
+			missed.emit()
 
 func handle_pause():
 	if pause_spawn && get_children().size() == 0:
@@ -133,13 +137,13 @@ func spawn_glyph() -> Glyph:
 	return glyph
 
 func has_free_space() -> bool:
-	var latest = get_children().back()
-	if !latest:
+	if get_children().size() == 0:
 		return true;
-	
+	var latest = get_children().back()
 	var right_boundary = latest.position.x + (latest.size().x / 2)
 	return right_boundary <= SPAWN_POS.x - 10
 
 func on_rune_missed(rune):
 	print("too late")
+	missed.emit()
 	rune.queue_free()

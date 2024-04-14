@@ -28,12 +28,9 @@ func _draw():
 		draw_polyline(path, Color.DARK_RED, 15)
 
 
-	if !current_path.is_empty():
+	if current_path.size() > 1:
 		draw_polyline(self.current_path, Color.RED, 15)
 		#draw_polyline(self.current_rate_limited_path, Color.BROWN, 10)
-		for current_index in self.current_rate_limited_path.size():
-			#draw_circle(current_rate_limited_path[current_index], 15, Color.GREEN)
-			pass
 
 func _input(event):
 	if event is InputEventMouseButton:
