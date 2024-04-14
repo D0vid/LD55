@@ -4,5 +4,5 @@ func _ready():
 	pass
 
 func _on_area_exited(area):
-	if !area.validated:
+	if area is Rune and !area.validated:
 		print("fail")
