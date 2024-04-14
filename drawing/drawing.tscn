@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bopb5d40kt6ri"]
+
+[ext_resource type="Script" path="res://drawing/drawing.gd" id="1_2jfbc"]
+[ext_resource type="Script" path="res://drawing/drawing_container.gd" id="1_e73lc"]
+
+[node name="Drawing" type="Node2D"]
+script = ExtResource("1_e73lc")
+
+[node name="Node2D" type="Node2D" parent="."]
+script = ExtResource("1_2jfbc")
