@@ -1,10 +1,10 @@
 class_name CombinedPath 
 
 #Array[Array[CombinedVector2]]
-var input_path: Array[Vector2]
+var input_path: PackedVector2Array
 var path = []
 
-func _init(input_path: Array[Vector2]):
+func _init(input_path):
 	self.input_path = input_path
 	for current_index in input_path.size():
 		if current_index+2 < input_path.size():
@@ -80,7 +80,7 @@ func _compare_segment(first: Array, second: Array) -> float:
 	return discreptancies;
 
 func get_reverse() -> CombinedPath:
-	var og_reverse = self.input_path.duplicate(true);
+	var og_reverse = self.input_path.duplicate();
 	og_reverse.reverse()
 
 	return CombinedPath.new(og_reverse)

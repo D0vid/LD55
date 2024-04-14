@@ -1,12 +1,13 @@
 class_name Drawing extends Node2D
 
-var drawing_vertices: Array[Vector2] = []
+var previous_paths = []
 
-var rate_limited_drawing_vertices: Array[Vector2]  = []
-
+var current_path: PackedVector2Array = []
+var current_rate_limited_path: PackedVector2Array  = []
 
 var drawing = false
-var ended = false
+
+var enabled = true
 
 @export var sampling_rate_sec = 0.10
 
@@ -14,7 +15,7 @@ var ended = false
 var time_since_last_draw_sec = sampling_rate_sec
 
 # signals
-signal drawing_ended
+signal drawing_ended(combined_path)
 
 
 # Called when the node enters the scene tree for the first time.
@@ -22,51 +23,44 @@ func _ready():
 	pass # Replace with function body.
 
 func _draw():
-	if !drawing_vertices.is_empty():
-		for current_index in self.drawing_vertices.size():
-			draw_circle(drawing_vertices[current_index], 10, Color.RED)
-			if current_index >= 1:
-				draw_line(drawing_vertices[current_index-1], drawing_vertices[current_index], Color.BLUE, 5)
 
-		for current_index in self.rate_limited_drawing_vertices.size():
-			draw_circle(rate_limited_drawing_vertices[current_index], 15, Color.GREEN)
-			if current_index >= 1:
-				draw_line(rate_limited_drawing_vertices[current_index-1], rate_limited_drawing_vertices[current_index], Color.BROWN, 10)
-				
+	for path: PackedVector2Array in self.previous_paths:
+		draw_polyline(path, Color.DARK_RED, 15)
 
-func _unhandled_input(event):
+
+	if !current_path.is_empty():
+		draw_polyline(self.current_path, Color.RED, 15)
+		#draw_polyline(self.current_rate_limited_path, Color.BROWN, 10)
+		for current_index in self.current_rate_limited_path.size():
+			#draw_circle(current_rate_limited_path[current_index], 15, Color.GREEN)
+			pass
+
+func _input(event):
 	if event is InputEventMouseButton:
 		if event.is_released():
 			self.drawing = false
-			self.ended = true
-			drawing_vertices.push_back(event.position)
-			rate_limited_drawing_vertices.push_back(event.position)
-			drawing_ended.emit()
-
+			current_path.push_back(event.position)
+			current_rate_limited_path.push_back(event.position)
+			drawing_ended.emit(CombinedPath.new(self.current_rate_limited_path))
+			next_drawing()
 		elif event.is_pressed():
 			self.drawing = true
 
 	elif event is InputEventMouseMotion:
-		if self.drawing && !self.ended:
+		if self.drawing && self.enabled:
 			if time_since_last_draw_sec >= sampling_rate_sec:
-				rate_limited_drawing_vertices.push_back(event.position)
+				current_rate_limited_path.push_back(event.position)
 				self.time_since_last_draw_sec = 0
-			drawing_vertices.push_back(event.position)
+			current_path.push_back(event.position)
 			
-
-
-func get_normalized_drawing() -> CombinedPath:
-	return CombinedPath.new(rate_limited_drawing_vertices)
-
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	queue_redraw()
 	time_since_last_draw_sec += delta
 
-func reset(): 
-	self.rate_limited_drawing_vertices = []
-	self.drawing_vertices = []
+func next_drawing():
+	self.previous_paths.push_back(current_path)
+	self.current_rate_limited_path = []
+	self.current_path = []
 	self.time_since_last_draw_sec = sampling_rate_sec
 	self.drawing = false
-	self.ended = false

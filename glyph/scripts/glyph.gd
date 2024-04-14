@@ -3,6 +3,7 @@ class_name Glyph extends Node2D
 
 var length_in_blocks: int = 3
 var validated = false
+var in_tap_zone = false
 
 @onready var background: Sprite2D  = $Background
 

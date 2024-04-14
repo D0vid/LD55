@@ -12,19 +12,18 @@ var rune_bases: Array[RuneBase] = [rune_up, rune_down, rune_left, rune_right, ru
 
 var glyph_scene = preload("res://glyph/glyph.tscn")
 
-
 var tap_zone : Area2D
 
 const SPAWN_POS = Vector2(160, 7)
 
 var rand = RandomNumberGenerator.new()
 
-
-var last_spawned_interval_sec = 0
-var spawn_interval = 0
+var last_spawned_interval_sec: float = 0
+var spawn_interval_boundary: float = 1
+var current_spawn_interval_boundary: float = 0.5
 
 var pause_spawn: bool = false
-const PAUSE_SPAWN_DURATION: int = 5;
+const PAUSE_SPAWN_DURATION: float = 5;
 
 var wave_size = 20
 var wave_current_count = 0
@@ -65,6 +64,17 @@ func _process(delta):
 		if tap_zone.overlaps_area(rune):
 			if rune is Rune:
 				actions_in_tap_zone.push_back(rune.rune_base.key)
+			if rune is Glyph:
+				#Glyph out
+				rune.in_tap_zone = true
+
+		else:
+			if rune is Glyph && rune.in_tap_zone:
+				#Glyph out
+				rune.in_tap_zone = false
+				rune.queue_free()
+
+
 	# Handle misses due to tapping too early
 	for rune_base in self.rune_bases:
 		var action = rune_base.key
@@ -82,8 +92,8 @@ func handle_pause():
 		on_resume_spawn()
 
 func handle_spawn():
-	# If we are not in pause mode, 
-	if !pause_spawn && last_spawned_interval_sec >= spawn_interval && has_free_space():
+		# If we are not in pause mode, 
+	if  !pause_spawn && last_spawned_interval_sec >= current_spawn_interval_boundary && has_free_space():
 		if wave_current_count >= wave_size:
 			# Wave is at max size, end wave
 			on_wave_ended()
@@ -98,6 +108,14 @@ func handle_spawn():
 		# we just spawned, reset interval, increment wave count.
 		wave_current_count+=1
 		last_spawned_interval_sec = 0
+		#randomize_spawn_interval()
+
+func randomize_spawn_interval():
+	var random = rand.randf_range(0, 40)
+	print("DEBUG RAND: " + str(random))
+	random = random / 4
+	print("DEBUG MODULOTED: " + str(random))
+	current_spawn_interval_boundary = spawn_interval_boundary / random
 
 func spawn_rune() -> Rune :
 	var action = rand.randi_range(0,rune_bases.size()-1)
