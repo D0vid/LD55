@@ -1,8 +1,9 @@
 class_name Rune extends Area2D
 
 @export var rune_base: RuneBase
-var rune_tap_zone: Area2D
+@onready var sprite = $Sprite2D as Sprite2D
 var validated = false
 
 func _ready():
-	rune_tap_zone = get_node("../../RuneTapZone")
+	sprite.texture = rune_base.sprite
+	pass

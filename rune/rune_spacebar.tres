@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RuneBase" load_steps=3 format=3 uid="uid://brew6qm4msd4p"]
+
+[ext_resource type="Script" path="res://rune/rune_base.gd" id="1_l1ucy"]
+[ext_resource type="Texture2D" uid="uid://b7biq5qnwab3i" path="res://rune/rune_spacebar.png" id="2_8uycu"]
+
+[resource]
+script = ExtResource("1_l1ucy")
+sprite = ExtResource("2_8uycu")
+key = "spacebar"

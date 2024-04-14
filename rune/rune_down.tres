@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RuneBase" load_steps=3 format=3 uid="uid://bqc5fcn3wjygv"]
+
+[ext_resource type="Script" path="res://rune/rune_base.gd" id="1_trph6"]
+[ext_resource type="Texture2D" uid="uid://71cwy2w8okdm" path="res://rune/rune_down.png" id="2_t2ajn"]
+
+[resource]
+script = ExtResource("1_trph6")
+sprite = ExtResource("2_t2ajn")
+key = "down"

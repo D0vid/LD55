@@ -23,7 +23,7 @@ position = Vector2(-80, 31)
 texture = ExtResource("3_t0xoj")
 centered = false
 script = ExtResource("3_jwyiy")
-timeline_speed = 25
+timeline_speed = 50
 
 [node name="RuneTapZone" type="Area2D" parent="."]
 unique_name_in_owner = true
