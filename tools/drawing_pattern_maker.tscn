@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7p6rbk0eqdy3"]
+
+[ext_resource type="Script" path="res://tools/drawing_container.gd" id="1_wqqix"]
+[ext_resource type="PackedScene" uid="uid://bopb5d40kt6ri" path="res://drawing/drawing.tscn" id="2_gx4xr"]
+
+[node name="DrawingPatternMaker" type="Node2D"]
+script = ExtResource("1_wqqix")
+
+[node name="Drawing" parent="." instance=ExtResource("2_gx4xr")]

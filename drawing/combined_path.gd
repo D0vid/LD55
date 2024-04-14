@@ -39,17 +39,34 @@ func compare_in_percentage(other: CombinedPath) -> float:
 func _base_compare(path: Array, other_path: Array) -> float:
 	var discreptancies: float = 0
 	var segment_count: float = 0
+
+	var fraction = (3 * other_path.size()) / 4
+	if path.size() <= fraction:
+		discreptancies += 100;
+		print("breako2")
+		return discreptancies;
+
 	for i in path.size():
 		#Array[CombinedVector2]
 		var current : Array = path[i]
 		segment_count += current.size()
 		if i > other_path.size(): 
 			#guard
-			discreptancies += 1;
+			discreptancies += 100;
+			print("breako")
 			break;
-		for o in range(i, other_path.size(), 1):
+		
+		var lower_boundary = i-1;
+		if lower_boundary < 0:
+			lower_boundary = 0
+
+		var higher_boundary = i+1
+		if higher_boundary > other_path.size():
+			higher_boundary = other_path.size()
+
+		for o in range(lower_boundary, higher_boundary, 1):
 			#Array[CombinedVector2]
-			var current_other: Array = other_path[i]
+			var current_other: Array = other_path[o]
 			discreptancies += self._compare_segment(current, current_other)
 
 	if discreptancies <= 0:
@@ -72,9 +89,19 @@ func _compare_segment(first: Array, second: Array) -> float:
 			#guard
 			discreptancies += 1;
 			break;
-		for o in range(i, second.size(), 1):
-			var current_other: CombinedVector2 = second[i]
+		
+		var lower_boundary = i-1;
+		if lower_boundary < 0:
+			lower_boundary = 0
+
+		var higher_boundary = i+1
+		if higher_boundary > second.size():
+			higher_boundary = second.size()
+
+		for o in range(lower_boundary, second.size(), 1):
+			var current_other: CombinedVector2 = second[o]
 			if current.is_direction_equal(current_other):
+				discreptancies -= 1
 				break;
 			discreptancies+=1
 	return discreptancies;

@@ -25,12 +25,12 @@ static func from_vector2(first: Vector2, second: Vector2) -> CombinedVector2:
 
 func is_direction_equal(other: CombinedVector2) -> bool :	
 	var diff = abs(self.direction - other.direction)
-	print("Direction Calc:" + str(diff) + "<=" + str(direction_tolerance))
+	#print("Direction Calc:" + str(diff) + "<=" + str(direction_tolerance))
 	return diff <= direction_tolerance
 
 func is_magnitude_equal(other: CombinedVector2, scaling_factor: float) -> bool:
 	var scaling_factor_to_compare = calculate_scaling_factor(other)
-	print("Scaling Calc: " + str(abs(scaling_factor_to_compare - scaling_factor)) + "<=" + str(scaling_tolerance))
+	#print("Scaling Calc: " + str(abs(scaling_factor_to_compare - scaling_factor)) + "<=" + str(scaling_tolerance))
 	
 	var test = abs(scaling_factor_to_compare - scaling_factor) <= scaling_tolerance
 	return test
