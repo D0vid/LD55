@@ -30,6 +30,7 @@ var last_spawned_interval_sec: float = 0
 var spawn_interval_boundary: float = 1
 var current_spawn_interval_boundary: float = 0.5
 var pause_spawn: bool = false
+var pause_handled: bool = false
 const PAUSE_SPAWN_DURATION: float = 5;
 
 var wave_size = 20
@@ -61,9 +62,6 @@ func _ready():
 	canvas.connect("drawing_ended", on_drawing_ended)
 	timer = get_tree().create_timer(5)
 
-	
-
-
 func on_drawing_ended(glyph: Glyph):
 	print("Drawing ended")
 	self.canvas.enabled = false
@@ -76,6 +74,7 @@ func on_wave_ended():
 	current_wave += 1
 
 func on_resume_spawn():
+	self.pause_handled = false
 	pause_spawn = false
 	AudioPlayer.pitch_scale += 0.02
 	timeline_speed += 25
@@ -172,8 +171,11 @@ func _process(delta):
 			timeline_object.queue_free()
 
 func handle_pause():
-	if get_children().size() == 0:
+	if !self.pause_handled && get_children().size() == 0:
+		fx_player.stream = speed_up_audio
+		fx_player.play()
 		new_wave.emit(current_wave) # this signal is emitted a lot of times :s
+		self.pause_handled=true
 	if last_spawned_interval_sec >= PAUSE_SPAWN_DURATION:
 		#Resume spawn when pause is over.
 		on_resume_spawn()
