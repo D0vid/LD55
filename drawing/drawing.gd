@@ -65,8 +65,8 @@ func _process(delta):
 func next_drawing():
 	if current_path.size() > 1:
 		self.previous_paths.push_back(current_path)
-		self.current_path = []
 
+	self.current_path = []
 	self.current_rate_limited_path = []
 	self.time_since_last_draw_sec = sampling_rate_sec
 	self.drawing = false

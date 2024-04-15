@@ -40,19 +40,13 @@ func _base_compare(path: Array, other_path: Array) -> float:
 	var discreptancies: float = 0
 	var segment_count: float = 0
 
-	var fraction = (3 * other_path.size()) / 4
-	if path.size() <= fraction:
-		discreptancies += 100;
-		print("breako2")
-		return discreptancies;
-
 	for i in path.size():
 		#Array[CombinedVector2]
 		var current : Array = path[i]
 		segment_count += current.size()
 		if i > other_path.size(): 
 			#guard
-			discreptancies += 100;
+			discreptancies += 1;
 			print("breako")
 			break;
 		
@@ -69,13 +63,15 @@ func _base_compare(path: Array, other_path: Array) -> float:
 			var current_other: Array = other_path[o]
 			discreptancies += self._compare_segment(current, current_other)
 
+	print(str(segment_count) + "/" + str(discreptancies) + " = " + str(segment_count / discreptancies))
+
+
 	if discreptancies <= 0:
 		discreptancies = segment_count
 	
 	if segment_count > discreptancies:
 		segment_count = discreptancies
 
-	print(str(segment_count) + "/" + str(discreptancies) + " = " + str(segment_count / discreptancies))
 
 	return (segment_count / discreptancies) * 100
 
