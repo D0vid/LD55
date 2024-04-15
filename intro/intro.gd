@@ -4,6 +4,7 @@ extends Control
 
 @onready var transition_rect = $TransitionRect
 @onready var summoner = $Summoner
+var audio2 = preload("res://audio_player/audio/grishnek_loop_2.ogg")
 
 var labels: Array[Label] = []
 var current_label_index = 0
@@ -28,6 +29,12 @@ func _input(event):
 			first_click = false
 			
 func transition_to(label_index):
+
+	if label_index == 4:
+		audio2.loop = true
+		AudioPlayer.stream = audio2
+		AudioPlayer.play()
+
 	transitioning = true
 	var tween = create_tween()
 	tween.tween_property(transition_rect, "color:a", 1, 1)

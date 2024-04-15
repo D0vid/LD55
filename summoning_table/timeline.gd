@@ -67,6 +67,7 @@ func on_wave_ended():
 
 func on_resume_spawn():
 	pause_spawn = false
+	AudioPlayer.pitch_scale += 0.02
 	timeline_speed += 25
 
 func on_tapzone_entered(colliding: Area2D):

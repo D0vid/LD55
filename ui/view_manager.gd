@@ -8,6 +8,8 @@ extends Control
 @onready var intro = $Intro
 
 var summoning_scene = preload('res://summoning_table/summoning_table.tscn')
+var audio1 = preload("res://audio_player/audio/grishnek_loop_1.ogg")
+var music_test = preload("res://audio_player/audio/music_test.ogg")
 
 var summoning_table_instance
 
@@ -25,6 +27,10 @@ func _process(_delta):
 		on_start_game()
 	
 func on_start_game():
+	music_test.loop = true
+	AudioPlayer.stream = music_test
+	AudioPlayer.pitch_scale = 1
+	AudioPlayer.play()
 	summoning_table_instance = summoning_scene.instantiate()
 	game_viewport.get_node("SubViewport").add_child(summoning_table_instance)
 	summoning_table_instance.get_node("Summoner").connect("died", on_died)
@@ -35,6 +41,10 @@ func on_died():
 	dead_overlay.visible = true
 
 func _on_start_game_button_pressed():
+	audio1.loop = true
+	AudioPlayer.stream = audio1
+	AudioPlayer.play()
+
 	transition_to([intro])
 
 func transition_to(new_views: Array):
