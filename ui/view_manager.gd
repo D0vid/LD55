@@ -8,6 +8,7 @@ extends Control
 @onready var intro = $Intro
 @onready var wave_label = $WaveLabel
 @onready var wave_death_label = get_node("%WaveDeathLabel")
+@onready var combo_label = $ComboLabel
 
 var summoning_scene = preload('res://summoning_table/summoning_table.tscn')
 var audio1 = preload("res://audio_player/audio/grishnek_loop_1.ogg")
@@ -19,6 +20,8 @@ var death_audio = preload("res://audio_player/audio/fx/Death.ogg")
 var summoning_table_instance
 
 var views = []
+var combo = 0
+var max_combo = 0
 
 func _ready():
 	main_menu.get_node("%StartGameButton").connect("pressed", _on_start_game_button_pressed)
@@ -39,9 +42,28 @@ func on_start_game():
 	summoning_table_instance = summoning_scene.instantiate()
 	game_viewport.get_node("SubViewport").add_child(summoning_table_instance)
 	summoning_table_instance.get_node("Timeline").connect("new_wave", on_new_wave.bind())
+	summoning_table_instance.get_node("Timeline").connect("hit", on_hit)
+	summoning_table_instance.get_node("Timeline").connect("missed", on_missed)
 	summoning_table_instance.get_node("Summoner").connect("died", on_died)
 	transition_to([game_viewport, draw_viewport], on_new_wave.bind(1))
+
+func on_hit():
+	combo += 1
+	update_combo_label()
+	if combo % 25 == 0:
+		summoning_table_instance.get_node("Summoner").add_health()
+		summoning_table_instance.get_node("%HealthBar").add_health()
+		summoning_table_instance.on_combo()
 	
+func on_missed():
+	max_combo = maxi(combo, max_combo)
+	combo = 0
+	update_combo_label()
+	
+func update_combo_label():
+	combo_label.visible = combo > 0
+	combo_label.text = "x" + str(combo)
+
 func on_new_wave(wave_number):
 	var text = "Wave " + str(wave_number)
 	if wave_number > 1:
@@ -55,7 +77,7 @@ func on_died():
 	fx_player.play()
 	dead_overlay.color = Color(Color.BLACK, 0.5)
 	var wave_number = summoning_table_instance.get_node("Timeline").current_wave
-	wave_death_label.text = "Wave " + str(wave_number)
+	wave_death_label.text = "Wave " + str(wave_number) + "\nMax combo : x" + str(max_combo)
 	dead_overlay.visible = true
 
 func _on_start_game_button_pressed():

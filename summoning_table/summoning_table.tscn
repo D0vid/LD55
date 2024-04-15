@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bon367xf2wgci"]
+[gd_scene load_steps=21 format=3 uid="uid://bon367xf2wgci"]
 
 [ext_resource type="Texture2D" uid="uid://b4s3yamvel8dd" path="res://summoning_table/bg.png" id="1_lnco2"]
 [ext_resource type="Script" path="res://summoning_table/summoning_table.gd" id="2_8wkp6"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://ca025q31p6e47" path="res://summoning_table/timeline.png" id="3_t0xoj"]
 [ext_resource type="Texture2D" uid="uid://dox52m4u30lig" path="res://popup_effect/miss_sprite.png" id="4_n7m4b"]
 [ext_resource type="Script" path="res://summoner/summoner.gd" id="4_pqtd2"]
+[ext_resource type="Texture2D" uid="uid://dbrdeajpp25a6" path="res://ui/heart.png" id="5_4m7h3"]
 [ext_resource type="Texture2D" uid="uid://l80427lt2jj0" path="res://summoning_table/runetapzone.png" id="6_8fd4r"]
 [ext_resource type="Script" path="res://summoning_table/rune_tap_zone.gd" id="7_bsrqe"]
 [ext_resource type="Texture2D" uid="uid://4es0x4ljbd8y" path="res://summoner/summoner.png" id="7_uhab6"]
@@ -93,6 +94,7 @@ texture = ExtResource("1_lnco2")
 script = ExtResource("2_8wkp6")
 hit_sprite = ExtResource("3_o3wfb")
 miss_sprite = ExtResource("4_n7m4b")
+heart_sprite = ExtResource("5_4m7h3")
 
 [node name="Scroll" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -149,6 +151,7 @@ theme_override_constants/margin_right = 1
 theme_override_constants/margin_bottom = 1
 
 [node name="HealthBar" type="TextureProgressBar" parent="CanvasLayer/MarginContainer"]
+unique_name_in_owner = true
 texture_filter = 1
 layout_mode = 2
 size_flags_horizontal = 0
@@ -157,5 +160,7 @@ max_value = 10.0
 value = 5.0
 texture_progress = ExtResource("9_3ocu4")
 script = ExtResource("10_vkcfi")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/MarginContainer/HealthBar"]
 
 [connection signal="area_exited" from="RuneTapZone" to="RuneTapZone" method="_on_area_exited"]

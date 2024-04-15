@@ -37,3 +37,8 @@ func on_missed():
 			
 func on_speed_up():
 	animation_player.speed_scale += 0.5
+	
+func add_health(amount = 1):
+	if !dead and health < 10:
+		health += amount
+		print("+" + str(amount) + " HP")

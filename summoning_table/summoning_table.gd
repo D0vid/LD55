@@ -2,6 +2,7 @@ extends Sprite2D
 
 @export var hit_sprite: Texture2D
 @export var miss_sprite: Texture2D
+@export var heart_sprite: Texture2D
 
 @onready var timeline = %Timeline
 @onready var tap_zone = %RuneTapZone
@@ -40,3 +41,10 @@ func on_missed():
 	popup.position = popup_position
 	popup.sprite = miss_sprite
 	add_child(popup)
+	
+func on_combo():
+	if summoner.dead or summoner.health >= 10: return
+	var popup = popup_scene.instantiate() as PopupEffect
+	popup.position = popup_position
+	popup.sprite = heart_sprite
+	get_tree().create_timer(0.25).timeout.connect(func(): add_child(popup))
