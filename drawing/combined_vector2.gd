@@ -5,7 +5,7 @@ var y : float
 var magnitude : float
 var direction : float
 
-const direction_tolerance = 40;
+const direction_tolerance = 50;
 const scaling_tolerance = 10;
 
 
@@ -23,7 +23,7 @@ static func from_vector2(first: Vector2, second: Vector2) -> CombinedVector2:
 
 	return CombinedVector2.new(dx, dy, magnitude, direction)
 
-func is_direction_equal(other: CombinedVector2) -> bool :	
+func is_direction_equal(other: CombinedVector2) -> bool :
 	var diff = abs(self.direction - other.direction)
 	#print("Direction Calc:" + str(diff) + "<=" + str(direction_tolerance))
 	return diff <= direction_tolerance

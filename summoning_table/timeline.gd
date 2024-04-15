@@ -138,7 +138,7 @@ func _process(delta):
 
 		else:
 			if !timeline_object.validated:
-				if timeline_object is Glyph && ! timeline_object.handled || timeline_object is Rune:
+				if timeline_object is Glyph && !timeline_object.handled || timeline_object is Rune:
 					missed.emit()
 					print("OOPS")
 			
