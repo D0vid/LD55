@@ -6,3 +6,7 @@ volume_db = -3.781
 [node name="FXPlayer" type="AudioStreamPlayer" parent="."]
 volume_db = 1.891
 max_polyphony = 5
+
+[node name="FXPlayer2" type="AudioStreamPlayer" parent="."]
+volume_db = 1.891
+max_polyphony = 5

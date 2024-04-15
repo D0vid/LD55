@@ -12,6 +12,9 @@ var summoning_scene = preload('res://summoning_table/summoning_table.tscn')
 var audio1 = preload("res://audio_player/audio/grishnek_loop_1.ogg")
 var music_test = preload("res://audio_player/audio/music_test.ogg")
 
+var fx_player: AudioStreamPlayer = AudioPlayer.get_node("FXPlayer2");
+var death_audio = preload("res://audio_player/audio/fx/Death.ogg")
+
 var summoning_table_instance
 
 var views = []
@@ -47,6 +50,8 @@ func on_new_wave(wave_number):
 	anim_player.play("new_wave")
 	
 func on_died():
+	fx_player.stream = death_audio
+	fx_player.play()
 	dead_overlay.color = Color(Color.BLACK, 0.5)
 	dead_overlay.visible = true
 
