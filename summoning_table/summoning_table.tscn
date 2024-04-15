@@ -99,6 +99,7 @@ texture_filter = 1
 texture = ExtResource("2_mnpy6")
 
 [node name="Summoner" type="Sprite2D" parent="."]
+unique_name_in_owner = true
 position = Vector2(-62, 20)
 texture = ExtResource("7_uhab6")
 hframes = 2

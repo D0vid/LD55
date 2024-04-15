@@ -3,23 +3,36 @@ extends Control
 @onready var main_menu = $MainMenu
 @onready var game_viewport = $GameViewport
 @onready var draw_viewport = $DrawViewport
+@onready var dead_overlay = $DeadOverlay
 @onready var transition_rect = $TransitionRect
 @onready var intro = $Intro
 
 var summoning_scene = preload('res://summoning_table/summoning_table.tscn')
 
+var summoning_table_instance
+
 var views = []
 
 func _ready():
 	main_menu.get_node("%StartGameButton").connect("pressed", _on_start_game_button_pressed)
-	main_menu.get_node("%StartGameNoIntro").connect("pressed", on_start_game)
-	views = [main_menu, game_viewport, draw_viewport, intro]
+	views = [main_menu, game_viewport, draw_viewport, intro, dead_overlay]
 	intro.connect("start_game", on_start_game)
 	
+func _process(delta):
+	if dead_overlay.visible and Input.is_action_just_pressed("reset"):
+		summoning_table_instance.queue_free()
+		dead_overlay.color = Color(Color.BLACK, 1)
+		on_start_game()
+	
 func on_start_game():
-	var instance = summoning_scene.instantiate()
-	game_viewport.get_node("SubViewport").add_child(instance)
+	summoning_table_instance = summoning_scene.instantiate()
+	game_viewport.get_node("SubViewport").add_child(summoning_table_instance)
+	summoning_table_instance.get_node("Summoner").connect("died", on_died)
 	transition_to([game_viewport, draw_viewport])
+	
+func on_died():
+	dead_overlay.color = Color(Color.BLACK, 0.5)
+	dead_overlay.visible = true
 
 func _on_start_game_button_pressed():
 	transition_to([intro])

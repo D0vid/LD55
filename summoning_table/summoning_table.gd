@@ -15,6 +15,13 @@ func _ready():
 	timeline.connect("hit", on_hit)
 	timeline.connect("missed", on_missed)
 	
+func on_died():
+	if summoner.dead: return
+	var popup = popup_scene.instantiate() as PopupEffect
+	popup.position = popup_position
+	popup.sprite = hit_sprite
+	add_child(popup)
+	
 func on_hit():
 	if summoner.dead: return
 	var popup = popup_scene.instantiate() as PopupEffect

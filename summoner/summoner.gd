@@ -6,6 +6,8 @@ extends Sprite2D
 var timeline
 var dead = false
 
+signal died
+
 func _ready():
 	timeline = get_node("%Timeline")
 	timeline.connect("hit", on_hit)
@@ -16,6 +18,10 @@ func _process(delta):
 		animation_player.play("dead")
 	elif !animation_player.is_playing():
 		animation_player.play("idle")
+		
+func die():
+	dead = true
+	died.emit()
 
 func on_hit():
 	if !dead:
@@ -26,4 +32,4 @@ func on_missed():
 		animation_player.play("miss")
 		health -= 1
 		if health <= 0:
-			dead = true
+			die()

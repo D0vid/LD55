@@ -28,6 +28,9 @@ var rand = RandomNumberGenerator.new()
 @export var timeline_speed = 100
 @onready var tap_zone : Area2D = get_node("%RuneTapZone")
 @onready var canvas : Drawing = get_node("/root/ViewManager/DrawViewport/SubViewport/Drawing")
+@onready var summoner : Sprite2D = get_node("%Summoner")
+
+var timer: SceneTreeTimer
 
 signal missed
 signal hit
@@ -37,6 +40,7 @@ func _ready():
 	tap_zone.connect("area_entered", on_tapzone_entered)
 	tap_zone.connect("area_exited", on_tapzone_exitted.bind())
 	canvas.connect("drawing_ended", on_drawing_ended)
+	timer = get_tree().create_timer(2)
 
 func on_drawing_ended(path: CombinedPath, glyph: Glyph):
 	print("Drawing ended")
@@ -81,9 +85,12 @@ func on_tapzone_exitted(colliding: Area2D):
 
 
 func _process(delta):
+	if summoner.dead || timer.time_left > 0: 
+		return
+		
 	last_spawned_interval_sec += delta
 
-	#handle_pause()
+	handle_pause()
 
 	handle_spawn()
 
@@ -102,7 +109,7 @@ func _process(delta):
 					print("too early")
 
 	
-			if timeline_object.in_tap_zone:
+			if timeline_object.in_tap_zone and !timeline_object.validated:
 				if timeline_object is Rune && Input.is_action_just_pressed(timeline_object.get_action()):
 					timeline_object.validated = true
 					hit.emit()
@@ -140,12 +147,10 @@ func _process(delta):
 			timeline_object.queue_free()
 
 func handle_pause():
-	if pause_spawn && get_children().size() == 0:
-		#Resets the spawn timer when timeline is empty (So we wait really for n seconds)
-		last_spawned_interval_sec = 0
 	if pause_spawn && last_spawned_interval_sec >= PAUSE_SPAWN_DURATION: 
 		#Resume spawn when pause is over.
 		on_resume_spawn()
+		last_spawned_interval_sec = 0
 
 func handle_spawn():
 		# If we are not in pause mode, 
@@ -156,11 +161,11 @@ func handle_spawn():
 			return;
 
 		var rando = rand.randi_range(0,10)
-		#if rando == 2:
-		spawn_glyph()
-		#else:
-			#spawn_rune()
-			#pass
+		if rando == 2:
+			spawn_glyph()
+		else:
+			spawn_rune()
+			pass
 
 		# we just spawned, increment wave count.
 		wave_current_count+=1

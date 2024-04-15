@@ -26,8 +26,8 @@ func _ready():
 
 func _draw():
 
-	for path: PackedVector2Array in self.previous_paths:
-		draw_polyline(path, Color.DARK_RED, 15)
+	#for path: PackedVector2Array in self.previous_paths:
+		#draw_polyline(path, Color.DARK_RED, 15)
 
 
 	if current_path.size() > 1:
