@@ -1,9 +1,60 @@
-[gd_scene load_steps=5 format=3 uid="uid://lit83qn6peku"]
+[gd_scene load_steps=9 format=3 uid="uid://lit83qn6peku"]
 
 [ext_resource type="Script" path="res://ui/view_manager.gd" id="1_4pgku"]
 [ext_resource type="PackedScene" uid="uid://cebdu1xyur7hf" path="res://ui/main_menu.tscn" id="1_oa08f"]
 [ext_resource type="PackedScene" uid="uid://bopb5d40kt6ri" path="res://drawing/drawing.tscn" id="3_wjogj"]
 [ext_resource type="PackedScene" uid="uid://bhwxfi16owhjm" path="res://intro/intro.tscn" id="4_njoav"]
+[ext_resource type="FontFile" uid="uid://b8rs3m280akny" path="res://ui/m5x7.ttf" id="5_gpcn2"]
+
+[sub_resource type="Animation" id="Animation_6qycj"]
+resource_name = "new_wave"
+length = 4.0
+step = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 3, 3.5),
+"transitions": PackedFloat32Array(0.5, 1e-05, 0.5, 1),
+"update": 0,
+"values": [Vector2(-1500, 400), Vector2(456, 400), Vector2(456, 400), Vector2(2000, 400)]
+}
+
+[sub_resource type="Animation" id="Animation_vdwtu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(812, 400)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5qoqs"]
+_data = {
+"RESET": SubResource("Animation_vdwtu"),
+"new_wave": SubResource("Animation_6qycj")
+}
 
 [node name="ViewManager" type="Control"]
 layout_mode = 3
@@ -99,6 +150,33 @@ theme_override_font_sizes/font_size = 36
 text = "
 Press R to retry"
 horizontal_alignment = 1
+
+[node name="WaveLabel" type="Label" parent="."]
+visible = false
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -148.0
+offset_top = -140.0
+offset_right = 860.0
+offset_bottom = 67.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("5_gpcn2")
+theme_override_font_sizes/font_size = 128
+text = "Wave 1
+The chanting intensifies"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="WaveLabel"]
+libraries = {
+"": SubResource("AnimationLibrary_5qoqs")
+}
 
 [node name="TransitionRect" type="ColorRect" parent="."]
 layout_mode = 1

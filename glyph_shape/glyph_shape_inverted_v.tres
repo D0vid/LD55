@@ -7,4 +7,3 @@
 script = ExtResource("1_gmqfk")
 collider = PackedVector2Array(-194, 57, -141, 98, 3, -87, 152, 100, 214, 57, 4, -200)
 sprite = ExtResource("2_8fncf")
-segments = PackedVector2Array()

@@ -34,6 +34,7 @@ const PAUSE_SPAWN_DURATION: float = 5;
 
 var wave_size = 20
 var wave_current_count = 0
+var current_wave = 1
 
 var rand = RandomNumberGenerator.new()
 
@@ -52,13 +53,13 @@ var timer: SceneTreeTimer
 
 signal missed
 signal hit
-
+signal new_wave(wave_number)
 
 func _ready():
 	tap_zone.connect("area_entered", on_tapzone_entered)
 	tap_zone.connect("area_exited", on_tapzone_exitted.bind())
 	canvas.connect("drawing_ended", on_drawing_ended)
-	timer = get_tree().create_timer(2)
+	timer = get_tree().create_timer(5)
 
 	
 
@@ -72,6 +73,7 @@ func on_drawing_ended(glyph: Glyph):
 func on_wave_ended():
 	pause_spawn = true
 	wave_current_count = 0
+	current_wave += 1
 
 func on_resume_spawn():
 	pause_spawn = false
@@ -109,7 +111,8 @@ func _process(delta):
 		
 	last_spawned_interval_sec += delta
 
-	handle_pause()
+	if pause_spawn:
+		handle_pause()
 
 	handle_spawn()
 
@@ -169,7 +172,9 @@ func _process(delta):
 			timeline_object.queue_free()
 
 func handle_pause():
-	if pause_spawn && last_spawned_interval_sec >= PAUSE_SPAWN_DURATION: 
+	if get_children().size() == 0:
+		new_wave.emit(current_wave) # this signal is emitted a lot of times :s
+	if last_spawned_interval_sec >= PAUSE_SPAWN_DURATION:
 		#Resume spawn when pause is over.
 		on_resume_spawn()
 		last_spawned_interval_sec = 0
