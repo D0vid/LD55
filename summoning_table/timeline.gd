@@ -47,6 +47,7 @@ func on_drawing_ended(path: CombinedPath, glyph: Glyph):
 	self.canvas.enabled = false
 	glyph.drawing_ended = true;
 
+
 func on_wave_ended():
 	pause_spawn = true
 	wave_current_count = 0
@@ -138,11 +139,15 @@ func _process(delta):
 						hit.emit()
 					else:
 						missed.emit()
+						
+					self.canvas.next_drawing()
+
 
 		else:
-			if !timeline_object.validated && timeline_object is Rune:
-				missed.emit()
-				print("OOPS")
+			if !timeline_object.validated:
+				if timeline_object is Glyph && !timeline_object.handled || timeline_object is Rune:
+					missed.emit()
+					print("OOPS")
 			
 			timeline_object.queue_free()
 

@@ -7,7 +7,7 @@ var current_rate_limited_path: PackedVector2Array  = []
 var current_glyph = null
 
 var drawing = false
-
+var debug = false
 var enabled = false
 
 @export var sampling_rate_sec = 0.10
@@ -32,7 +32,8 @@ func _draw():
 
 	if current_path.size() > 1:
 		draw_polyline(self.current_path, Color.RED, 15)
-		#draw_polyline(self.current_rate_limited_path, Color.BROWN, 10)
+		if debug:
+			draw_polyline(self.current_rate_limited_path, Color.BROWN, 10)
 
 func _input(event):
 	if !self.enabled:
@@ -55,7 +56,7 @@ func _input(event):
 			current_path.push_back(event.position)
 
 func get_normalized_drawing() -> CombinedPath:
-	return CombinedPath.new(self.current_rate_limited_path)
+	return CombinedPath.new(self.current_path)
 			
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -65,8 +66,8 @@ func _process(delta):
 func next_drawing():
 	if current_path.size() > 1:
 		self.previous_paths.push_back(current_path)
-		self.current_path = []
 
+	self.current_path = []
 	self.current_rate_limited_path = []
 	self.time_since_last_draw_sec = sampling_rate_sec
 	self.drawing = false
