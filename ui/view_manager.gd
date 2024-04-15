@@ -7,6 +7,7 @@ extends Control
 @onready var transition_rect = $TransitionRect
 @onready var intro = $Intro
 @onready var wave_label = $WaveLabel
+@onready var wave_death_label = get_node("%WaveDeathLabel")
 
 var summoning_scene = preload('res://summoning_table/summoning_table.tscn')
 var audio1 = preload("res://audio_player/audio/grishnek_loop_1.ogg")
@@ -53,6 +54,8 @@ func on_died():
 	fx_player.stream = death_audio
 	fx_player.play()
 	dead_overlay.color = Color(Color.BLACK, 0.5)
+	var wave_number = summoning_table_instance.get_node("Timeline").current_wave
+	wave_death_label.text = "Wave " + str(wave_number)
 	dead_overlay.visible = true
 
 func _on_start_game_button_pressed():

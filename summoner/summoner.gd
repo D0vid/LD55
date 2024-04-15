@@ -12,6 +12,7 @@ func _ready():
 	timeline = get_node("%Timeline")
 	timeline.connect("hit", on_hit)
 	timeline.connect("missed", on_missed)
+	timeline.connect("speed_up", on_speed_up)
 
 func _process(_delta):
 	if dead:
@@ -33,3 +34,6 @@ func on_missed():
 		health -= 1
 		if health <= 0:
 			die()
+			
+func on_speed_up():
+	animation_player.speed_scale += 0.5

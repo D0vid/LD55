@@ -55,6 +55,7 @@ var timer: SceneTreeTimer
 signal missed
 signal hit
 signal new_wave(wave_number)
+signal speed_up
 
 func _ready():
 	tap_zone.connect("area_entered", on_tapzone_entered)
@@ -67,7 +68,6 @@ func on_drawing_ended(glyph: Glyph):
 	self.canvas.enabled = false
 	glyph.drawing_ended = true;
 
-
 func on_wave_ended():
 	pause_spawn = true
 	wave_current_count = 0
@@ -78,6 +78,7 @@ func on_resume_spawn():
 	pause_spawn = false
 	AudioPlayer.pitch_scale += 0.02
 	timeline_speed += 25
+	speed_up.emit()
 
 func on_tapzone_entered(colliding: Area2D):
 	if colliding is BaseTimelineObject:
@@ -89,13 +90,11 @@ func on_tapzone_entered(colliding: Area2D):
 		self.canvas.current_glyph = colliding
 		self.canvas.show_glyph()
 
-
 func on_tapzone_exitted(colliding: Area2D):
 	if colliding is BaseTimelineObject:
 		colliding.in_tap_zone = false
 		colliding.to_delete = true
 		print("Oust")
-
 
 	if colliding is Glyph:
 		print("Disabled canvas")
