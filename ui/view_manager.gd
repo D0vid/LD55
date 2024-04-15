@@ -6,6 +6,7 @@ extends Control
 @onready var dead_overlay = $DeadOverlay
 @onready var transition_rect = $TransitionRect
 @onready var intro = $Intro
+@onready var wave_label = $WaveLabel
 
 var summoning_scene = preload('res://summoning_table/summoning_table.tscn')
 var audio1 = preload("res://audio_player/audio/grishnek_loop_1.ogg")
@@ -33,8 +34,17 @@ func on_start_game():
 	AudioPlayer.play()
 	summoning_table_instance = summoning_scene.instantiate()
 	game_viewport.get_node("SubViewport").add_child(summoning_table_instance)
+	summoning_table_instance.get_node("Timeline").connect("new_wave", on_new_wave.bind())
 	summoning_table_instance.get_node("Summoner").connect("died", on_died)
-	transition_to([game_viewport, draw_viewport])
+	transition_to([game_viewport, draw_viewport], on_new_wave.bind(1))
+	
+func on_new_wave(wave_number):
+	var text = "Wave " + str(wave_number)
+	if wave_number > 1:
+		text += "\nThe chanting intensifies"
+	wave_label.text = text
+	var anim_player = wave_label.get_node("AnimationPlayer") as AnimationPlayer
+	anim_player.play("new_wave")
 	
 func on_died():
 	dead_overlay.color = Color(Color.BLACK, 0.5)
@@ -47,8 +57,12 @@ func _on_start_game_button_pressed():
 
 	transition_to([intro])
 
-func transition_to(new_views: Array):
+func transition_to(new_views: Array, callback = null):
 	var tween = create_tween()
 	tween.tween_property(transition_rect, "color:a", 1, 1)
-	tween.tween_callback(func(): for view in views: view.visible = new_views.has(view));
+	tween.tween_callback(func(): 
+		for view in views: view.visible = new_views.has(view)
+		if callback != null:
+			callback.call()
+	);
 	tween.tween_property(transition_rect, "color:a", 0, 1)
