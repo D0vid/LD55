@@ -43,6 +43,11 @@ var rand = RandomNumberGenerator.new()
 @onready var canvas : Drawing = get_node("/root/ViewManager/DrawViewport/SubViewport/Drawing")
 @onready var summoner : Sprite2D = get_node("%Summoner")
 
+
+var speed_up_audio = preload("res://audio_player/audio/fx/SpeedUp.ogg")
+var fx_player: AudioStreamPlayer = AudioPlayer.get_node("FXPlayer");
+
+
 var timer: SceneTreeTimer
 
 signal missed
@@ -54,6 +59,9 @@ func _ready():
 	tap_zone.connect("area_exited", on_tapzone_exitted.bind())
 	canvas.connect("drawing_ended", on_drawing_ended)
 	timer = get_tree().create_timer(2)
+
+	
+
 
 func on_drawing_ended(glyph: Glyph):
 	print("Drawing ended")
