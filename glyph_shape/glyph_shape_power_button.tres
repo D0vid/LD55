@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="GlyphShapeBase" load_steps=3 format=3 uid="uid://bxpd2hu8jnccd"]
+
+[ext_resource type="Script" path="res://glyph_shape/glyph_shape_base.gd" id="1_c1kj4"]
+[ext_resource type="Texture2D" uid="uid://cp06hqen2b7kg" path="res://glyph_shape/glyph_shape_power_button.png" id="2_6fwm2"]
+
+[resource]
+script = ExtResource("1_c1kj4")
+collider = PackedVector2Array(-33, 35, -35, -179, 51, -178, 154, -117, 191, 0, 169, 96, 90, 170, -1, 194, -111, 159, -174, 91, -195, -4, -146, -117, -93, -74, -126, 0, -111, 66, -62, 115, 2, 129, 69, 110, 113, 61, 125, -7, 96, -78, 28, -114, 30, 41)
+sprite = ExtResource("2_6fwm2")
+segments = PackedVector2Array()

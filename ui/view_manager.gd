@@ -18,7 +18,7 @@ func _ready():
 	views = [main_menu, game_viewport, draw_viewport, intro, dead_overlay]
 	intro.connect("start_game", on_start_game)
 	
-func _process(delta):
+func _process(_delta):
 	if dead_overlay.visible and Input.is_action_just_pressed("reset"):
 		summoning_table_instance.queue_free()
 		dead_overlay.color = Color(Color.BLACK, 1)

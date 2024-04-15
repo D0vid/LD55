@@ -1,8 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://bhwxfi16owhjm"]
+[gd_scene load_steps=10 format=3 uid="uid://bhwxfi16owhjm"]
 
 [ext_resource type="Script" path="res://intro/intro.gd" id="1_dhffb"]
 [ext_resource type="Texture2D" uid="uid://4es0x4ljbd8y" path="res://summoner/summoner.png" id="2_4r08j"]
 [ext_resource type="Texture2D" uid="uid://c73j51jujxi5s" path="res://intro/intro_controls.png" id="3_r4m74"]
+[ext_resource type="Texture2D" uid="uid://cp06hqen2b7kg" path="res://glyph_shape/glyph_shape_power_button.png" id="4_bhpwa"]
+[ext_resource type="Texture2D" uid="uid://bw367p2nyi5na" path="res://intro/glyph_example.png" id="6_bf4wv"]
+[ext_resource type="Texture2D" uid="uid://dulglxmu0d01r" path="res://glyph_shape/glyph_shape_ankh.png" id="6_gxpt8"]
 
 [sub_resource type="Animation" id="Animation_csuwb"]
 length = 0.001
@@ -93,6 +96,21 @@ theme_override_font_sizes/font_size = 48
 text = "The time has come ..."
 horizontal_alignment = 1
 
+[node name="ClickToContinue" type="Label" parent="01"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -243.0
+offset_top = -506.5
+offset_right = 243.0
+offset_bottom = -439.5
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "Click to continue"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="02" type="Label" parent="."]
 visible = false
 layout_mode = 1
@@ -110,6 +128,21 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 48
 text = "Centuries ago, a great doom was summoned upon our world"
 horizontal_alignment = 1
+
+[node name="ClickToContinue" type="Label" parent="02"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -243.0
+offset_top = -506.5
+offset_right = 243.0
+offset_bottom = -439.5
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "Click to continue"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="03" type="Label" parent="."]
 visible = false
@@ -130,6 +163,21 @@ text = "Only through the sacrifices of many heroes,
 was this embodiment of evil banished to its native realm"
 horizontal_alignment = 1
 
+[node name="ClickToContinue" type="Label" parent="03"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -243.0
+offset_top = -506.5
+offset_right = 243.0
+offset_bottom = -439.5
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "Click to continue"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="04" type="Label" parent="."]
 visible = false
 layout_mode = 1
@@ -148,6 +196,21 @@ theme_override_font_sizes/font_size = 48
 text = "What a waste, I say ..."
 horizontal_alignment = 1
 
+[node name="ClickToContinue" type="Label" parent="04"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -243.0
+offset_top = -506.5
+offset_right = 243.0
+offset_bottom = -439.5
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "Click to continue"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="05" type="Label" parent="."]
 visible = false
 layout_mode = 1
@@ -165,6 +228,21 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 48
 text = "Today, a dark day looms upon the world once again"
 horizontal_alignment = 1
+
+[node name="ClickToContinue" type="Label" parent="05"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -243.0
+offset_top = -506.5
+offset_right = 243.0
+offset_bottom = -439.5
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "Click to continue"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="06" type="Label" parent="."]
 visible = false
@@ -185,6 +263,21 @@ text = "For I, Grishnek, greatest warlock alive,
 have amassed the necessary ingredients to attempt another summoning"
 horizontal_alignment = 1
 
+[node name="ClickToContinue" type="Label" parent="06"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -243.0
+offset_top = -506.5
+offset_right = 243.0
+offset_bottom = -439.5
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "Click to continue"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="07" type="Label" parent="."]
 visible = false
 layout_mode = 1
@@ -204,6 +297,21 @@ text = "Tremble in fear mortals, and wish for my failure.
 For if I succeed, you shall all whisper my name in fear for eternity ..."
 horizontal_alignment = 1
 
+[node name="ClickToContinue" type="Label" parent="07"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -243.0
+offset_top = -506.5
+offset_right = 243.0
+offset_bottom = -439.5
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "Click to continue"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="08" type="Label" parent="."]
 visible = false
 layout_mode = 1
@@ -221,32 +329,130 @@ scale = Vector2(12, 12)
 texture = ExtResource("3_r4m74")
 offset = Vector2(80, 45)
 
+[node name="GlyphShapePowerButton" type="Sprite2D" parent="08"]
+position = Vector2(1536, 240)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_bhpwa")
+
+[node name="GlyphShapeAnkh" type="Sprite2D" parent="08"]
+position = Vector2(1152, 224)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("6_gxpt8")
+
+[node name="GlyphExample" type="Sprite2D" parent="08"]
+position = Vector2(1376, 683)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("6_bf4wv")
+
+[node name="W" type="Label" parent="08"]
+layout_mode = 2
+offset_left = 106.0
+offset_top = 144.0
+offset_right = 852.0
+offset_bottom = 281.0
+grow_vertical = 0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 48
+text = "W
+"
+horizontal_alignment = 1
+
+[node name="A" type="Label" parent="08"]
+layout_mode = 2
+offset_left = -91.0
+offset_top = 354.0
+offset_right = 655.0
+offset_bottom = 491.0
+grow_vertical = 0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 48
+text = "A"
+horizontal_alignment = 1
+
+[node name="S" type="Label" parent="08"]
+layout_mode = 2
+offset_left = 102.0
+offset_top = 350.0
+offset_right = 848.0
+offset_bottom = 487.0
+grow_vertical = 0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 48
+text = "S"
+horizontal_alignment = 1
+
+[node name="D" type="Label" parent="08"]
+layout_mode = 2
+offset_left = 297.0
+offset_top = 350.0
+offset_right = 1043.0
+offset_bottom = 487.0
+grow_vertical = 0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 48
+text = "D"
+horizontal_alignment = 1
+
+[node name="Spacebar" type="Label" parent="08"]
+layout_mode = 2
+offset_left = 106.0
+offset_top = 545.0
+offset_right = 852.0
+offset_bottom = 682.0
+grow_vertical = 0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 48
+text = "Spacebar"
+horizontal_alignment = 1
+
 [node name="Runes" type="Label" parent="08"]
 layout_mode = 2
-offset_left = 128.0
-offset_top = 896.0
-offset_right = 874.0
-offset_bottom = 1033.0
+offset_left = 111.0
+offset_top = 834.0
+offset_right = 857.0
+offset_bottom = 1041.0
 grow_vertical = 0
 size_flags_horizontal = 0
 size_flags_vertical = 8
 theme_override_font_sizes/font_size = 48
 text = "Activate the corresponding rune
- at the right timing"
+ at the right timing
+ before it exits the timeline"
 horizontal_alignment = 1
 
-[node name="Runes2" type="Label" parent="08"]
+[node name="Glyphs" type="Label" parent="08"]
 layout_mode = 2
-offset_left = 1072.0
-offset_top = 896.0
-offset_right = 1638.0
-offset_bottom = 1033.0
+offset_left = 915.0
+offset_top = 834.0
+offset_right = 1868.0
+offset_bottom = 1041.0
 size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_font_sizes/font_size = 48
 text = "Draw the correct glyph 
-before the time runs out"
+before the glyph exits the timeline
+(make sure to stay inside the boundaries)"
 horizontal_alignment = 1
+
+[node name="ClickToContinue" type="Label" parent="08"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -243.0
+offset_top = -506.5
+offset_right = 243.0
+offset_bottom = -439.5
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 24
+text = "Click to continue"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="TransitionRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -257,3 +463,11 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

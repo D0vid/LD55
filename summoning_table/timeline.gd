@@ -9,6 +9,19 @@ var rune_right = preload("res://rune/rune_right.tres")
 var rune_spacebar = preload("res://rune/rune_spacebar.tres")
 var rune_bases: Array[RuneBase] = [rune_up, rune_down, rune_left, rune_right, rune_spacebar]
 
+# Mandarine & Co
+var glyph_shape_ankh = preload("res://glyph_shape/glyph_shape_ankh.tres")
+var glyph_shape_circle = preload("res://glyph_shape/glyph_shape_circle.tres")
+var glyph_shape_inverted_v = preload("res://glyph_shape/glyph_shape_inverted_v.tres")
+var glyph_shape_lightning = preload("res://glyph_shape/glyph_shape_lightning.tres")
+var glyph_shape_power_button = preload("res://glyph_shape/glyph_shape_power_button.tres")
+var glyph_shape_spiral = preload("res://glyph_shape/glyph_shape_spiral.tres")
+var glyph_shape_tilted_hourglass = preload("res://glyph_shape/glyph_shape_tilted_hourglass.tres")
+var glyph_shape_tilted_square = preload("res://glyph_shape/glyph_shape_tilted_square.tres")
+var glyph_shape_v = preload("res://glyph_shape/glyph_shape_v.tres")
+var glyph_shape_weird = preload("res://glyph_shape/glyph_shape_weird.tres")
+var glyph_shape_bases: Array[GlyphShapeBase] = [glyph_shape_ankh,glyph_shape_circle,glyph_shape_inverted_v,glyph_shape_lightning,glyph_shape_power_button,glyph_shape_spiral,glyph_shape_tilted_hourglass,glyph_shape_tilted_square,glyph_shape_v,glyph_shape_weird]
+
 var glyph_scene = preload("res://glyph/glyph.tscn")
 
 # SPAWN
@@ -42,7 +55,7 @@ func _ready():
 	canvas.connect("drawing_ended", on_drawing_ended)
 	timer = get_tree().create_timer(2)
 
-func on_drawing_ended(path: CombinedPath, glyph: Glyph):
+func on_drawing_ended(glyph: Glyph):
 	print("Drawing ended")
 	self.canvas.enabled = false
 	glyph.drawing_ended = true;
@@ -64,6 +77,7 @@ func on_tapzone_entered(colliding: Area2D):
 		print("Enabled canvas")
 		self.canvas.enabled = true
 		self.canvas.current_glyph = colliding
+		self.canvas.show_glyph()
 
 
 func on_tapzone_exitted(colliding: Area2D):
@@ -78,12 +92,7 @@ func on_tapzone_exitted(colliding: Area2D):
 		self.canvas.enabled = false
 		colliding.drawing_ended = true;
 		self.canvas.next_drawing()
-
-
-
-		
-
-
+		self.canvas.hide_glyph()
 
 func _process(delta):
 	if summoner.dead || timer.time_left > 0: 
@@ -116,24 +125,24 @@ func _process(delta):
 					hit.emit()
 					print("BOOM")
 				if timeline_object is Glyph && timeline_object.drawing_ended && !timeline_object.validated && !timeline_object.handled:
-					var arrayo : PackedVector2Array = [Vector2(865.4999, 420), Vector2(923.9999, 508.5), Vector2(1009.5, 608.9999), Vector2(1062, 665.9999), Vector2(1098, 701.9999), Vector2(1110, 716.9999), Vector2(988.4999, 706.4999), Vector2(842.9999, 691.4999), Vector2(830.9999, 689.9999), Vector2(953.9999, 592.4999), Vector2(1065, 478.5), Vector2(1132.5, 414), Vector2(1134, 414)]
-					var comparo = CombinedPath.new(arrayo)
-
-
-
-					var path = self.canvas.get_normalized_drawing()
-					var percent = path.compare_in_percentage(comparo)
-
-					arrayo.reverse()
-					var comparo_reverse = CombinedPath.new(arrayo)
-					var percent_reverse = path.compare_in_percentage(comparo_reverse)
-
-
-					timeline_object.handled = true
 					
-					print("percent: " + str(percent) + " | " + "reverse: " + str(percent_reverse))
+					var drawn_glyph = canvas.current_path
+					var glyph_area : Area2D = canvas.glyph_shape
+					var valid_points = 0
+					var invalid_points = 0
+					for point in drawn_glyph:
+						if Geometry2D.is_point_in_polygon(point - glyph_area.position, glyph_area.collider.polygon):
+							valid_points += 1
+						else:
+							invalid_points += 1
+					var total_points = valid_points + invalid_points
+					invalid_points = maxi(invalid_points, 1) # prevent div by 0
+					var cover_percentage = float(valid_points) / total_points * 100
+					print("Cover percentage : " + str(cover_percentage))
+					
+					timeline_object.handled = true
 
-					if percent >= 60 || percent_reverse >= 60:
+					if cover_percentage >= 80:
 						print("GLYPH IS SAME")
 						timeline_object.validated = true
 						hit.emit()
@@ -141,7 +150,6 @@ func _process(delta):
 						missed.emit()
 						
 					self.canvas.next_drawing()
-
 
 		else:
 			if !timeline_object.validated:
@@ -170,7 +178,6 @@ func handle_spawn():
 			spawn_glyph()
 		else:
 			spawn_rune()
-			pass
 
 		# we just spawned, increment wave count.
 		wave_current_count+=1
@@ -194,10 +201,15 @@ func spawn_rune() -> Rune :
 
 func spawn_glyph() -> Glyph:
 	var glyph: Glyph = glyph_scene.instantiate()
+	glyph.glyph_shape_base = get_random_glyph_shape_base()
 	glyph.length_in_blocks = 16
 	add_child(glyph)
 	glyph.position = SPAWN_POS + Vector2(glyph.size().x ,0) / 2
 	return glyph
+	
+func get_random_glyph_shape_base() -> GlyphShapeBase:
+	var random = rand.randi_range(0, 9)
+	return glyph_shape_bases[random] as GlyphShapeBase
 
 func has_free_space() -> bool:
 	if get_children().size() == 0:

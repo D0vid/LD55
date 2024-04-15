@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="GlyphShapeBase" load_steps=3 format=3 uid="uid://ccwbk3onedwgk"]
+
+[ext_resource type="Script" path="res://glyph_shape/glyph_shape_base.gd" id="1_gocdb"]
+[ext_resource type="Texture2D" uid="uid://ce6geqxa5175y" path="res://glyph_shape/glyph_shape_weird.png" id="2_ykh5g"]
+
+[resource]
+script = ExtResource("1_gocdb")
+collider = PackedVector2Array(211, -145, -26, -220, -34, 141, -193, 93, -211, 146, 34, 214, 35, -133, 203, -92)
+sprite = ExtResource("2_ykh5g")
+segments = PackedVector2Array()

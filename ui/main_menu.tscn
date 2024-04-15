@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://cebdu1xyur7hf"]
+[gd_scene load_steps=2 format=3 uid="uid://cebdu1xyur7hf"]
+
+[ext_resource type="Texture2D" uid="uid://4es0x4ljbd8y" path="res://summoner/summoner.png" id="1_jd83e"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -15,7 +17,16 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.172549, 0, 0.172549, 1)
+color = Color(0.117647, 0.113725, 0.223529, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.368627)
+texture_filter = 1
+position = Vector2(960, 540)
+scale = Vector2(30, 30)
+texture = ExtResource("1_jd83e")
+hframes = 2
+vframes = 4
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1

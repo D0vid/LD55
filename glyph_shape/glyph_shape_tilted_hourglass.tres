@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="GlyphShapeBase" load_steps=3 format=3 uid="uid://cr5jkoxe6u71v"]
+
+[ext_resource type="Script" path="res://glyph_shape/glyph_shape_base.gd" id="1_7x85f"]
+[ext_resource type="Texture2D" uid="uid://bmvhnmfojtjg7" path="res://glyph_shape/glyph_shape_tilted_hourglass.png" id="2_hrxve"]
+
+[resource]
+script = ExtResource("1_7x85f")
+collider = PackedVector2Array(-43, -223, 10, -218, 174, -9, 153, 31, 18, 30, 19, 223, -21, 239, -203, 3, -170, -34, -44, -39)
+sprite = ExtResource("2_hrxve")
+segments = PackedVector2Array()

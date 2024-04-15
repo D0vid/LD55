@@ -1,6 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://bopb5d40kt6ri"]
+[gd_scene load_steps=3 format=3 uid="uid://bopb5d40kt6ri"]
 
 [ext_resource type="Script" path="res://drawing/drawing.gd" id="1_2jfbc"]
+[ext_resource type="PackedScene" uid="uid://drcv0v50i00re" path="res://glyph_shape/glyph_shape.tscn" id="2_dqkj5"]
 
 [node name="Drawing" type="Node2D"]
+z_index = 1
 script = ExtResource("1_2jfbc")
+
+[node name="GlyphShape" parent="." instance=ExtResource("2_dqkj5")]
+z_as_relative = false
+position = Vector2(744, 316)

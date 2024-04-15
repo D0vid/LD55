@@ -13,7 +13,7 @@ func _ready():
 	timeline.connect("hit", on_hit)
 	timeline.connect("missed", on_missed)
 
-func _process(delta):
+func _process(_delta):
 	if dead:
 		animation_player.play("dead")
 	elif !animation_player.is_playing():
