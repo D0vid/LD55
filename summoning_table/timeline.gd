@@ -31,11 +31,11 @@ var spawn_interval_boundary: float = 1
 var current_spawn_interval_boundary: float = 0.5
 var pause_spawn: bool = false
 var pause_handled: bool = false
-const PAUSE_SPAWN_DURATION: float = 5;
 
-var wave_size = 20
+
+var waves = [WaveData.new(4, 0, 0, 20, 40, 6), WaveData.new(2, 0, 10, 20, 40, 5), WaveData.new(10, 0, 1, 14, 40, 5), WaveData.new(20, 1, 2, 10, 30, 5, "res://audio_player/audio/main/Main_Theme_Transition.ogg"), WaveData.new(20, 1, 2, 10, 30, 5), WaveData.new(20, 2, 0, 10, 20, 5, "res://audio_player/audio/main/Main-Theme-Main-First-Transition.ogg"), WaveData.new(10, 1, 10, 15, 20, 5), WaveData.new(50, 2, 1, 15, 15, 5, "res://audio_player/audio/main/Main-Theme-Main-Second-Transition.ogg"), WaveData.new(50, 1, 5, 10, 20, 5, "res://audio_player/audio/main/Main-Theme-Main-First-Transition.ogg")]
 var wave_current_count = 0
-var current_wave = 1
+var current_wave = 0
 
 var rand = RandomNumberGenerator.new()
 
@@ -48,8 +48,6 @@ var rand = RandomNumberGenerator.new()
 
 var speed_up_audio = preload("res://audio_player/audio/fx/SpeedUp.ogg")
 var fx_player: AudioStreamPlayer = AudioPlayer.get_node("FXPlayer");
-
-
 var timer: SceneTreeTimer
 
 signal missed
@@ -57,11 +55,46 @@ signal hit
 signal new_wave(wave_number)
 signal speed_up
 
+# Audio
+var main_theme_intro_loop = preload("res://audio_player/audio/main/Main_Theme_Intro_Loop.ogg")
+var main_theme_transition = preload("res://audio_player/audio/main/Main_Theme_Transition.ogg")
+var main_theme_main_first_loop = preload("res://audio_player/audio/main/Main-Theme-Main-First-Loop.ogg")
+var main_theme_main_second_loop = preload("res://audio_player/audio/main/Main-Theme-Main-First-Loop.ogg")
+var main_theme_main_third_loop = preload("res://audio_player/audio/main/Main-Theme-Main-First-Loop.ogg")
+var main_theme_main_transition1 = preload("res://audio_player/audio/main/Main-Theme-Main-First-Transition.ogg")
+var main_theme_main_transition2 = preload("res://audio_player/audio/main/Main-Theme-Main-Second-Transition.ogg")
+
+
 func _ready():
 	tap_zone.connect("area_entered", on_tapzone_entered)
 	tap_zone.connect("area_exited", on_tapzone_exitted.bind())
 	canvas.connect("drawing_ended", on_drawing_ended)
 	timer = get_tree().create_timer(5)
+	AudioPlayer.connect("finished", on_music_stopped)
+
+
+func on_music_stopped():
+	var last_res = AudioPlayer.stream.resource_path
+	if last_res == "res://audio_player/audio/main/Main_Theme_Intro.ogg":
+		main_theme_intro_loop.loop = true
+		AudioPlayer.stream = main_theme_intro_loop
+		AudioPlayer.play()
+	elif last_res == "res://audio_player/audio/main/Main_Theme_Transition.ogg":
+		main_theme_main_first_loop.loop = true
+		AudioPlayer.stream = main_theme_main_first_loop
+		AudioPlayer.play()
+	elif last_res == "res://audio_player/audio/main/Main-Theme-Main-First-Transition.ogg" || last_res == "res://audio_player/audio/main/Main-Theme-Main-Second-Transition.ogg":
+		var to_play = rand.randi_range(0,2)
+		if to_play == 0:
+			main_theme_main_first_loop.loop = true
+			AudioPlayer.stream = main_theme_main_first_loop
+		elif to_play == 1:
+			main_theme_main_second_loop.loop = true
+			AudioPlayer.stream = main_theme_main_second_loop
+		elif to_play == 2:
+			main_theme_main_third_loop.loop = true
+			AudioPlayer.stream = main_theme_main_third_loop
+		AudioPlayer.play()
 
 func on_drawing_ended(glyph: Glyph):
 	print("Drawing ended")
@@ -73,12 +106,17 @@ func on_wave_ended():
 	wave_current_count = 0
 	current_wave += 1
 
-func on_resume_spawn():
+func on_resume_spawn(wave_data: WaveData):
+
+	var speed_increase = wave_data.next_speed_increase
+
 	self.pause_handled = false
 	pause_spawn = false
-	AudioPlayer.pitch_scale += 0.02
-	timeline_speed += 25
-	speed_up.emit()
+
+	if speed_increase > 0:
+		AudioPlayer.pitch_scale += speed_increase/100
+		timeline_speed += speed_increase * 10
+		speed_up.emit()
 
 func on_tapzone_entered(colliding: Area2D):
 	if colliding is BaseTimelineObject:
@@ -109,10 +147,12 @@ func _process(delta):
 		
 	last_spawned_interval_sec += delta
 
-	if pause_spawn:
-		handle_pause()
+	var wave_data = get_current_wave_data()
 
-	handle_spawn()
+	if pause_spawn:
+		handle_pause(wave_data)
+
+	handle_spawn(wave_data)
 
 	var first_no_delete_child_handled = false
 
@@ -169,28 +209,49 @@ func _process(delta):
 			
 			timeline_object.queue_free()
 
-func handle_pause():
+func handle_pause(wave_data: WaveData):
 	if !self.pause_handled && get_children().size() == 0:
-		fx_player.stream = speed_up_audio
-		fx_player.play()
-		new_wave.emit(current_wave) # this signal is emitted a lot of times :s
+		
+		
+		play_transition(wave_data)
+
+		if wave_data.next_speed_increase > 0:
+			fx_player.stream = speed_up_audio
+			fx_player.play()
+
+		new_wave.emit(current_wave+1) # this signal is emitted a lot of times :s
 		self.pause_handled=true
-	if last_spawned_interval_sec >= PAUSE_SPAWN_DURATION:
+
+	if last_spawned_interval_sec >= wave_data.pause_duration && self.pause_handled:
 		#Resume spawn when pause is over.
-		on_resume_spawn()
+		on_resume_spawn(wave_data)
 		last_spawned_interval_sec = 0
 
-func handle_spawn():
+func play_transition(wave_data: WaveData):
+	if wave_data.play_transition == "res://audio_player/audio/main/Main_Theme_Transition.ogg":
+		AudioPlayer.stream = main_theme_transition
+		AudioPlayer.play()
+	elif wave_data.play_transition == "res://audio_player/audio/main/Main-Theme-Main-First-Transition.ogg":
+		AudioPlayer.stream = main_theme_main_transition1
+		AudioPlayer.play()
+	elif wave_data.play_transition == "res://audio_player/audio/main/Main-Theme-Main-Second-Transition.ogg":
+		AudioPlayer.stream = main_theme_main_transition2
+		AudioPlayer.play()
+
+func handle_spawn(wave_data: WaveData):
 		# If we are not in pause mode, 
-	if  !pause_spawn && last_spawned_interval_sec >= current_spawn_interval_boundary && has_free_space():
-		if wave_current_count >= wave_size:
+	if  !pause_spawn && last_spawned_interval_sec >= current_spawn_interval_boundary && has_free_space(wave_data):
+		
+		print(str(wave_current_count) + ">=" + str(wave_data.wave_size))
+		
+		if wave_current_count >= wave_data.wave_size:
 			# Wave is at max size, end wave
 			on_wave_ended()
 			return;
 
-		var rando = rand.randi_range(0,10)
-		if rando == 2:
-			spawn_glyph()
+		var rando = rand.randi_range(1,10)
+		if rando <= wave_data.glyph_odd:
+			spawn_glyph(wave_data)
 		else:
 			spawn_rune()
 
@@ -214,10 +275,10 @@ func spawn_rune() -> Rune :
 	rune.position = SPAWN_POS + Vector2(rune.size().x ,0) / 2
 	return rune
 
-func spawn_glyph() -> Glyph:
+func spawn_glyph(wave_data: WaveData) -> Glyph:
 	var glyph: Glyph = glyph_scene.instantiate()
 	glyph.glyph_shape_base = get_random_glyph_shape_base()
-	glyph.length_in_blocks = 16
+	glyph.length_in_blocks = wave_data.glyph_size
 	add_child(glyph)
 	glyph.position = SPAWN_POS + Vector2(glyph.size().x ,0) / 2
 	return glyph
@@ -226,9 +287,24 @@ func get_random_glyph_shape_base() -> GlyphShapeBase:
 	var random = rand.randi_range(0, 9)
 	return glyph_shape_bases[random] as GlyphShapeBase
 
-func has_free_space() -> bool:
+func has_free_space(wave_data: WaveData) -> bool:
 	if get_children().size() == 0:
 		return true;
 	var latest = get_children().back()
 	var right_boundary = latest.position.x + (latest.size().x / 2)
-	return right_boundary <= SPAWN_POS.x - 20
+	return right_boundary <= SPAWN_POS.x - wave_data.margin_between_blocks
+
+func get_current_wave_data() -> WaveData:
+	if self.current_wave >= self.waves.size():
+		return self.waves.back()
+
+	return self.waves[self.current_wave]
+
+func get_previous_wave_data() -> WaveData:
+	if self.current_wave == 0:
+		return self.waves[0]
+
+	if self.current_wave - 1 >= self.waves.size():
+		return self.waves.back()
+
+	return self.waves[self.current_wave - 1]

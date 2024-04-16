@@ -12,7 +12,7 @@ extends Control
 
 var summoning_scene = preload('res://summoning_table/summoning_table.tscn')
 var audio1 = preload("res://audio_player/audio/grishnek_loop_1.ogg")
-var music_test = preload("res://audio_player/audio/music_test.ogg")
+var main_theme_intro = preload("res://audio_player/audio/main/Main_Theme_Intro.ogg")
 
 var fx_player: AudioStreamPlayer = AudioPlayer.get_node("FXPlayer2");
 var death_audio = preload("res://audio_player/audio/fx/Death.ogg")
@@ -35,8 +35,7 @@ func _process(_delta):
 		on_start_game()
 	
 func on_start_game():
-	music_test.loop = true
-	AudioPlayer.stream = music_test
+	AudioPlayer.stream = main_theme_intro
 	AudioPlayer.pitch_scale = 1
 	AudioPlayer.play()
 	summoning_table_instance = summoning_scene.instantiate()
