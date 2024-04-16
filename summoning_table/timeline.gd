@@ -219,7 +219,7 @@ func handle_pause(wave_data: WaveData):
 			fx_player.stream = speed_up_audio
 			fx_player.play()
 
-		new_wave.emit(current_wave+1) # this signal is emitted a lot of times :s
+		new_wave.emit(current_wave + 1) # this signal is emitted a lot of times :s
 		self.pause_handled=true
 
 	if last_spawned_interval_sec >= wave_data.pause_duration && self.pause_handled:

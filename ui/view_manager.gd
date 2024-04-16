@@ -35,6 +35,7 @@ func _process(_delta):
 		on_start_game()
 	
 func on_start_game():
+	max_combo = 0
 	AudioPlayer.stream = main_theme_intro
 	AudioPlayer.pitch_scale = 1
 	AudioPlayer.play()
@@ -76,7 +77,7 @@ func on_died():
 	fx_player.play()
 	dead_overlay.color = Color(Color.BLACK, 0.5)
 	var wave_number = summoning_table_instance.get_node("Timeline").current_wave
-	wave_death_label.text = "Wave " + str(wave_number) + "\nMax combo : x" + str(max_combo)
+	wave_death_label.text = "Wave " + str(wave_number + 1) + "\nMax combo : x" + str(max_combo)
 	dead_overlay.visible = true
 
 func _on_start_game_button_pressed():
