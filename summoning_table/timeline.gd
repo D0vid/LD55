@@ -57,10 +57,10 @@ signal speed_up
 
 # Audio
 var main_theme_intro_loop = preload("res://audio_player/audio/main/Main_Theme_Intro_Loop.ogg")
-var main_theme_transition = preload("res://audio_player/audio/main/Main_Theme_Transition.ogg")
+var main_theme_transition = preload("res://audio _player/audio/main/Main_Theme_Transition.ogg")
 var main_theme_main_first_loop = preload("res://audio_player/audio/main/Main-Theme-Main-First-Loop.ogg")
-var main_theme_main_second_loop = preload("res://audio_player/audio/main/Main-Theme-Main-First-Loop.ogg")
-var main_theme_main_third_loop = preload("res://audio_player/audio/main/Main-Theme-Main-First-Loop.ogg")
+var main_theme_main_second_loop = preload("res://audio_player/audio/main/Main-Theme-Main-Second-Loop.ogg")
+var main_theme_main_third_loop = preload("res://audio_player/audio/main/Main-Theme-Main-Third-Loop.ogg")
 var main_theme_main_transition1 = preload("res://audio_player/audio/main/Main-Theme-Main-First-Transition.ogg")
 var main_theme_main_transition2 = preload("res://audio_player/audio/main/Main-Theme-Main-Second-Transition.ogg")
 
