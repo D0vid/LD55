@@ -7,4 +7,9 @@ func _ready():
 	timeline.connect("missed", on_missed)
 
 func on_missed():
-	value -= 1
+	if value > 0:
+		value -= 1
+
+func add_health(amount = 1):
+	if value < 10:
+		value += amount
