@@ -57,7 +57,7 @@ signal speed_up
 
 # Audio
 var main_theme_intro_loop = preload("res://audio_player/audio/main/Main_Theme_Intro_Loop.ogg")
-var main_theme_transition = preload("res://audio _player/audio/main/Main_Theme_Transition.ogg")
+var main_theme_transition = preload("res://audio_player/audio/main/Main_Theme_Transition.ogg")
 var main_theme_main_first_loop = preload("res://audio_player/audio/main/Main-Theme-Main-First-Loop.ogg")
 var main_theme_main_second_loop = preload("res://audio_player/audio/main/Main-Theme-Main-Second-Loop.ogg")
 var main_theme_main_third_loop = preload("res://audio_player/audio/main/Main-Theme-Main-Third-Loop.ogg")
@@ -219,7 +219,7 @@ func handle_pause(wave_data: WaveData):
 			fx_player.stream = speed_up_audio
 			fx_player.play()
 
-		new_wave.emit(current_wave+1) # this signal is emitted a lot of times :s
+		new_wave.emit(current_wave + 1) # this signal is emitted a lot of times :s
 		self.pause_handled=true
 
 	if last_spawned_interval_sec >= wave_data.pause_duration && self.pause_handled:
