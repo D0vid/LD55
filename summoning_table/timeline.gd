@@ -33,7 +33,7 @@ var pause_spawn: bool = false
 var pause_handled: bool = false
 
 
-var waves = [WaveData.new(4, 0, 0, 20, 40, 6), WaveData.new(2, 0, 10, 20, 40, 5), WaveData.new(10, 0, 1, 14, 40, 5), WaveData.new(20, 1, 2, 10, 30, 5, "res://audio_player/audio/main/Main_Theme_Transition.ogg"), WaveData.new(20, 1, 2, 10, 30, 5), WaveData.new(20, 2, 0, 10, 20, 5, "res://audio_player/audio/main/Main-Theme-Main-First-Transition.ogg"), WaveData.new(10, 1, 10, 15, 20, 5), WaveData.new(50, 2, 1, 15, 15, 5, "res://audio_player/audio/main/Main-Theme-Main-Second-Transition.ogg"), WaveData.new(50, 1, 5, 10, 20, 5, "res://audio_player/audio/main/Main-Theme-Main-First-Transition.ogg")]
+var waves = [WaveData.new(4, 0, 0, 20, 40, 6), WaveData.new(2, 0, 10, 20, 40, 5), WaveData.new(10, 0, 1, 14, 40, 5), WaveData.new(20, 1, 2, 10, 30, 5, "res://audio_player/audio/main/Main_Theme_Transition.ogg"), WaveData.new(20, 0, 2, 10, 30, 5), WaveData.new(20, 1, 0, 10, 20, 5, "res://audio_player/audio/main/Main-Theme-Main-First-Transition.ogg"), WaveData.new(10, 0, 10, 15, 20, 5), WaveData.new(30, 2, 1, 16, 20, 5, "res://audio_player/audio/main/Main-Theme-Main-Second-Transition.ogg"), WaveData.new(40, 0, 0, 20, 20, 5),  WaveData.new(25, 1, 4, 16, 20, 5, "res://audio_player/audio/main/Main-Theme-Main-First-Transition.ogg"), WaveData.new(15, 1, 10, 15, 20, 5, "res://audio_player/audio/main/Main-Theme-Main-Second-Transition.ogg"), WaveData.new(30, 1, 4, 16, 20, 5, "res://audio_player/audio/main/Main-Theme-Main-First-Transition.ogg")]
 var wave_current_count = 0
 var current_wave = 0
 
@@ -57,7 +57,7 @@ signal speed_up
 
 # Audio
 var main_theme_intro_loop = preload("res://audio_player/audio/main/Main_Theme_Intro_Loop.ogg")
-var main_theme_transition = preload("res://audio _player/audio/main/Main_Theme_Transition.ogg")
+var main_theme_transition = preload("res://audio_player/audio/main/Main_Theme_Transition.ogg")
 var main_theme_main_first_loop = preload("res://audio_player/audio/main/Main-Theme-Main-First-Loop.ogg")
 var main_theme_main_second_loop = preload("res://audio_player/audio/main/Main-Theme-Main-Second-Loop.ogg")
 var main_theme_main_third_loop = preload("res://audio_player/audio/main/Main-Theme-Main-Third-Loop.ogg")
