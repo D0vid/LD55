@@ -35,6 +35,7 @@ func _process(_delta):
 		on_start_game()
 	
 func on_start_game():
+	max_combo = 0
 	AudioPlayer.stream = main_theme_intro
 	AudioPlayer.pitch_scale = 1
 	AudioPlayer.play()
